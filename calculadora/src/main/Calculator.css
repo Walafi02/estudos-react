@@ -15,7 +15,7 @@ body {
     text-align: center;
     
     color: #aaa;
-    background: linear-gradient(to rigth, rgb(83, 105, 118), rgb(41, 46, 73));
+    background: linear-gradient(rgb(83, 105, 118), rgb(41, 46, 73));
 }
 
 
@@ -30,5 +30,5 @@ body {
 
     display: grid;
     grid-template-columns: repeat(4, 25%);
-    grid-template-rows: 45px, 45px, 45px, 45px, 45px;
+    grid-template-rows: 1fr 45px 45px 45px 45px 45px;
 }
