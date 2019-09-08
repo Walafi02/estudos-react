@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import Grid from '../template/grid';
 import IconButton from '../template/iconButton';
-import { chargeDescription, search } from './todoActions'
+import { add, chargeDescription, search } from './todoActions'
 
 class TodoForm extends Component {
     constructor(props){
@@ -17,14 +17,18 @@ class TodoForm extends Component {
     }
 
     keyHandle(e){
+
+        const { add, search, description } = this.props
+
         if(e.key === 'Enter'){
-            e.shiftKey ? this.props.handleSearch() : this.props.handleAdd()
+            e.shiftKey ? search() : add(description)
         }else if(e.hey === 'Escape') {
             props.handleClear()
         }
     }
 
     render() {
+        const { add, search, description } = this.props
         return (
             <div>
                 <div role='form' className='todoForm'>
@@ -36,8 +40,8 @@ class TodoForm extends Component {
                             onKeyUp={this.keyHandle}/>
                     </Grid>
                     <Grid cols='12 3 2'>
-                        <IconButton style='primary' icon='plus' onClick={this.props.handleAdd} /> 
-                        <IconButton style='info' icon='search' onClick={this.props.handleSearch} /> 
+                        <IconButton style='primary' icon='plus' onClick={() => add(description)} /> 
+                        <IconButton style='info' icon='search' onClick={() => search()} /> 
                         <IconButton style='default' icon='close' onClick={this.props.handleClear} />
                     </Grid>
                 </div>
@@ -47,6 +51,6 @@ class TodoForm extends Component {
 }
 
 const matStateToProps = state => ({description: state.todo.description})
-const matDispatchToProps = dispatch => bindActionCreators({ chargeDescription, search }, dispatch)
+const matDispatchToProps = dispatch => bindActionCreators({ add, chargeDescription, search }, dispatch)
 
-export default connect(matStateToProps, matDispatchToProps)(TodoForm)
+export default connect( matStateToProps, matDispatchToProps)(TodoForm)
