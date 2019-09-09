@@ -21,9 +21,8 @@ const debtSchema = new mongoose.Schema({
     value: {
         type: Number,
         min: 0,
-        required: true
-    }
-    ,
+        required: [true, 'O campo de value é obrigatorio']
+    },
     status: {
         type: String,
         required: true,
