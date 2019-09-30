@@ -1,40 +1,25 @@
-import React, { useState, useEffect } from 'react'
-// import { async } from 'q'
+import React, { useState, useEffect } from "react";
 
-export default function Exemple(){
-    
-    const [ repositories, setRepositories ] = useState([])
-
-    useEffect(async () => {
-        const response = await fetch('https://api.github.com/users/walafi02/repos')
-        const data = await response.json()
-        
-        setRepositories(data)
-    }, []);
+export default function Exemple() {
+    const [location, setLocation] = useState({});
 
     useEffect(() => {
-        const filtered = repositories.filter(repo => repo.favorite)
+        const watchId = navigator.geolocation.watchPosition(
+            handlePositionReceived
+        );
 
-        document.title = `Você tem ${filtered.length} repositorios favoritos`
-    }, [repositories])
+        return () => navigator.geolocation.clearWatch(watchId);
+    }, []);
 
-    function handleFavorite(id){
-        const newRepositories = repositories.map(repo => {
-            return repo.id === id ? { ...repo, favorite: !repo.favorite } : repo
-        })
-
-        setRepositories(newRepositories)
+    function handlePositionReceived({ coords }) {
+        const { latitude, longitude } = coords;
+        setLocation({ latitude, longitude });
     }
 
     return (
-        <div>
-            { repositories.map(repo => 
-                <li key={repo.id}>
-                    {repo.name}
-                    {repo.favorite && <span> (Favorito)</span>}
-                    <button onClick={() => handleFavorite(repo.id)}>favorite!</button>
-                </li>
-            )}
-        </div>
-    )
+        <>
+            Latitude: {location.latitude} <br />
+            Longitude: {location.longitude}
+        </>
+    );
 }
